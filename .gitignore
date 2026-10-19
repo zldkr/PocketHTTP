@@ -1,0 +1,11 @@
+# Local app data and test workspaces
+.preview-data/
+.test-data/
+.wine-test/
+.wine-test2/
+*.log
+
+# Build and release artifacts (published as a GitHub release)
+dist/
+*.exe
+*.zip
