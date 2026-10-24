@@ -1,14 +1,10 @@
 {
-  "version": "2.0-native",
-  "ui": "Go + Win32 common controls; no browser, WebView or HTTP listener",
-  "target": "Windows 10/11 amd64",
-  "go": "1.24.6; CGO_ENABLED=0",
-  "checks": {
-    "portable_tests": "go test -race ./... PASS",
-    "portable_vet": "go vet ./... PASS",
-    "windows_vet": "GOOS=windows go vet -unsafeptr=false ./... PASS",
-    "windows_executable_tests": "Wine 10 + Xvfb: all tests PASS; includes real Win32 controls, open/save dialogs, folder delete, close/reopen persistence",
-    "release_workload": "115 sequential local HTTP requests completed"
-  },
-  "limitations": "Wine is a compatibility environment, not native Windows. Real Windows memory and display not measured. 32 MiB Go memory target is not a process RSS hard cap."
+  "date": "2026-10-24",
+  "change": "Consecutive identical requests retain one history entry",
+  "passed": [
+    "go test -race ./...",
+    "go vet ./...",
+    "Windows amd64 cross-build"
+  ],
+  "limitations": "This update was not run on native Windows."
 }

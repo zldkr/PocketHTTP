@@ -228,7 +228,9 @@ func (w *Workspace) addHistory(r Request) {
 	if len(b) > 64<<10 {
 		return
 	}
-	w.History = append([]Request{r}, w.History...)
+	if len(w.History) == 0 || w.History[0] != r {
+		w.History = append([]Request{r}, w.History...)
+	}
 	if node, _ := w.find(w.SelectedID); node == nil || node.Type != "request" {
 		w.SelectedID = ""
 	}

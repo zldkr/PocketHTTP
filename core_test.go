@@ -185,6 +185,7 @@ func TestImportExportAndCapacity(t *testing.T) {
 	}
 	r.Body = "small"
 	for i := 0; i < 40; i++ {
+		r.Body += "x"
 		w.addHistory(r)
 	}
 	if len(w.History) != 30 {
@@ -206,5 +207,22 @@ func TestImportExportAndCapacity(t *testing.T) {
 	temps, _ := filepath.Glob(filepath.Join(filepath.Dir(path), "*.tmp"))
 	if len(temps) != 0 {
 		t.Fatal("temp file leaked")
+	}
+}
+
+func TestConsecutiveHistoryDeduplication(t *testing.T) {
+	w := defaultWorkspace()
+	a := defaultRequest()
+	w.addHistory(a)
+	w.addHistory(a)
+	if len(w.History) != 1 {
+		t.Fatal("consecutive duplicate retained")
+	}
+	b := a
+	b.Auth.Token = "different"
+	w.addHistory(b)
+	w.addHistory(a)
+	if len(w.History) != 3 {
+		t.Fatal("distinct or nonconsecutive request removed")
 	}
 }
